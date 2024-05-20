@@ -15,14 +15,28 @@
 
         canvas {
             display: block;
+            position:absolute;
+            left:0;
+            top:0;
+            z-index:10;
+            
+        }
+        img{
+            opacity:0;
+        }
+        .container{
+            position:relative;
         }
     </style>
 </head>
 
 <body>
-    <canvas id="canvas">
+    <div class="container">
+
+    
+    <canvas id="canvas"></canvas>
         <img src="https://img.freepik.com/free-photo/wide-angle-shot-single-tree-growing-clouded-sky-during-sunset-surrounded-by-grass_181624-22807.jpg?w=996&t=st=1716195046~exp=1716195646~hmac=3acd0ec7fbdfef7dacbdb9712050289580aed8024b660c77b2946509f8fab406">
-    </canvas>
+    </div>
 
 </body>
 

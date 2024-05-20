@@ -1,106 +1,37 @@
-import * as dat from 'dat.gui';
+import { gsap } from "gsap";
+const img = document.querySelector("img");
+const imgSize = img.getBoundingClientRect();
+const c = document.getElementById("canvas");
+c.width = imgSize.width;
+c.height = imgSize.height;
+const ctx = c.getContext("2d");
 
+// Turn of image smoothing to get pixalted effect
+ctx.imageSmoothingEnabled = false;
+ctx.webkitImageSmoothingEnabled = false;
+ctx.mozImageSmoothingEnabled = false;
 
-const gui = new dat.GUI();
+const blocks = {
+	amount: 1,
+};
 
+function pixalite() {
+	requestAnimationFrame(pixalite);
+	const size = blocks.amount * 0.01;
 
-const c=document.getElementById("canvas");
+	const w = c.width * size;
+	const h = c.height * size;
+	ctx.drawImage(img, 0, 0, w, h);
 
-const ctx=c.getContext("2d");
-
-const wave={
-    y:window.innerHeight/2,
-    length:0.01,
-    amplitude:100,
-    frequency:0.01
+	ctx.drawImage(c, 0, 0, w, h, 0, 0, c.width, c.height);
 }
+pixalite();
 
-const bgColor={
-    r:0,
-    g:0,
-    b:0,
-    a:0.01,
-}
-
-
-const strokeColor={
-    h:255,
-    s:55,
-    l:255,
-    
-}
-
-const waveFolder=gui.addFolder("wave");
-waveFolder.add(wave, 'y', 0, window.innerHeight);
-waveFolder.add(wave, 'length', -0.01, 0.1);
-waveFolder.add(wave, 'amplitude', -300, 300);
-waveFolder.add(wave, 'frequency', -0.01, 1);
-waveFolder.open();
-
-const bgFolder=gui.addFolder("bgColor");
-bgFolder.add(bgColor,'r',0,255);
-bgFolder.add(bgColor,'g',0,255);
-bgFolder.add(bgColor,'b',0,255);
-bgFolder.add(bgColor,'a',0,1);
-
-const strokeFolder=gui.addFolder("strokeColor");
-strokeFolder.add(strokeColor,'h',0,255)
-strokeFolder.add(strokeColor,'s',0,100)
-strokeFolder.add(strokeColor,'l',0,100)
-
-
-c.width=window.innerWidth;
-c.height=window.innerHeight;
-
-let increment=wave.frequency;
-
-function animate(){
-    requestAnimationFrame(animate);
-   ctx.fillStyle= `rgba(${bgColor.r}, ${bgColor.g}, ${bgColor.b}, ${bgColor.a})`;
-   ctx.fillRect(0,0,window.innerWidth,window.innerHeight); 
-   //ctx.clearRect(0,0,window.innerWidth,window.innerHeight); clear frame
-    ctx.beginPath();
-    ctx.moveTo(0,wave.y);
-    for(let i=0;i<window.innerWidth;i++){
-        ctx.lineTo(i,wave.y+Math.sin(i * wave.length + increment)*wave.amplitude*Math.sin(increment));
-
-    }
-    increment+=wave.frequency;
-    ctx.strokeStyle = `hsl(${Math.abs(strokeColor.h * Math.sin(increment))}, ${
-		strokeColor.s
-	}%, ${strokeColor.l}%)`;
-    ctx.stroke();
-}
-
-animate();
-// //  draw line
-// ctx.moveTo(0,0);
-// ctx.lineTo(window.innerWidth,window.innerHeight);
-// ctx.stroke();
-
-// // draw rectangle
-// ctx.beginPath();
-// ctx.rect(100,100,200,100); 
-// // ctx.rect(window.innerWidth/2-100,window.innerHeight/2-100,200,100);
-// ctx.strokeStyle ="green";
-// ctx.lineWidth=10;
-// ctx.stroke();
-// ctx.fillStyle ="red";
-// ctx.fill();
-
-// //Text
-// ctx.font="30px Arial";
-// ctx.textAlign="center";
-// ctx.fillText("Hello Shandiya",window.innerWidth/2,window.innerHeight/2);
-
-// //Image Rendering
-// const img=document.querySelector("img");
-// ctx.drawImage(img,100,100,500,500);
-
-ctx.beginPath();
-ctx.moveTo(0,wave.y);
-for(let i=0;i<window.innerWidth;i++){
-    ctx.lineTo(i,window.innerHeight/2+Math.sin(i * wave.length)*wave.amplitude);
-
-}
-ctx.stroke();
+gsap.to(blocks, {
+	amount: 100,
+	delay: 2,
+	ease: "steps(5)",
+	duration: 6,
+	repeat: -1,
+	yoyo: true,
+});

@@ -16,16 +16,16 @@ const wave={
 }
 
 const bgColor={
-    r:255,
-    g:255,
-    b:255,
-    a:0.1,
+    r:0,
+    g:0,
+    b:0,
+    a:0.01,
 }
 
 
 const strokeColor={
     h:255,
-    s:255,
+    s:55,
     l:255,
     
 }
@@ -41,12 +41,12 @@ const bgFolder=gui.addFolder("bgColor");
 bgFolder.add(bgColor,'r',0,255);
 bgFolder.add(bgColor,'g',0,255);
 bgFolder.add(bgColor,'b',0,255);
-bgFolder.add(bgColor,'a',0,255);
+bgFolder.add(bgColor,'a',0,1);
 
 const strokeFolder=gui.addFolder("strokeColor");
 strokeFolder.add(strokeColor,'h',0,255)
-strokeFolder.add(strokeColor,'s',0,255)
-strokeFolder.add(strokeColor,'l',0,255)
+strokeFolder.add(strokeColor,'s',0,100)
+strokeFolder.add(strokeColor,'l',0,100)
 
 
 c.width=window.innerWidth;
@@ -66,7 +66,9 @@ function animate(){
 
     }
     increment+=wave.frequency;
-    ctx.strokeStyle=`hsl(${strokeColor.h}, ${strokeColor.s}%, ${strokeColor.l}%)`;
+    ctx.strokeStyle = `hsl(${Math.abs(strokeColor.h * Math.sin(increment))}, ${
+		strokeColor.s
+	}%, ${strokeColor.l}%)`;
     ctx.stroke();
 }
 

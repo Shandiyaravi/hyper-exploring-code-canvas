@@ -26,3 +26,5 @@ ctx.textAlign="center";
 ctx.fillText("Hello Shandiya",window.innerWidth/2,window.innerHeight/2);
 
 //Image Rendering
+const img=document.querySelector("img");
+ctx.drawImage(img,100,100);
